@@ -1,0 +1,7 @@
+{
+  "name": "gestion-inventario",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
