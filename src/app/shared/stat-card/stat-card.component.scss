@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+
+.tarjeta {
+  width: 100%;
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'icono titulo'
+    'icono valor'
+    'icono detalle';
+  align-items: center;
+  column-gap: 14px;
+  padding: 16px;
+  text-align: left;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: var(--ion-color-step-50, #f4f5f8);
+  color: var(--ion-text-color, #1b1b1b);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.tarjeta:hover,
+.tarjeta.activo {
+  border-color: var(--acento);
+}
+
+.tarjeta:focus-visible {
+  outline: 3px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+ion-icon {
+  grid-area: icono;
+  font-size: 2.25rem;
+  color: var(--acento);
+}
+
+.titulo {
+  grid-area: titulo;
+  font-size: 0.9rem;
+}
+
+.valor {
+  grid-area: valor;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.detalle {
+  grid-area: detalle;
+  font-size: 0.8rem;
+}
+
+/* Tonos oscuros de cada color para cumplir contraste AA sobre fondo claro */
+.color-primary { --acento: var(--ion-color-primary-shade); }
+.color-success { --acento: var(--ion-color-success-shade); }
+.color-warning { --acento: #8a5a00; }
+.color-danger { --acento: var(--ion-color-danger-shade); }
+.color-tertiary { --acento: var(--ion-color-tertiary-shade); }

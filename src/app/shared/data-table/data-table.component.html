@@ -1,0 +1,60 @@
+<ion-searchbar
+  [(ngModel)]="busqueda"
+  [debounce]="150"
+  placeholder="Buscar…"
+  [attr.aria-label]="'Buscar en ' + titulo()"
+></ion-searchbar>
+
+<p class="resumen" aria-live="polite">{{ visibles().length }} de {{ filas().length }} resultados</p>
+
+<div class="contenedor">
+  <table>
+    <caption class="sr-only">{{ titulo() }}</caption>
+    <thead>
+      <tr>
+        @for (c of columnas(); track c.clave) {
+          <th scope="col" [attr.aria-sort]="ariaSort(c.clave)" [class.numerica]="c.numerica">
+            <button type="button" class="orden" (click)="ordenarPor(c.clave)">
+              {{ c.titulo }}
+              <span aria-hidden="true">{{ ariaSort(c.clave) === 'ascending' ? '▲' : ariaSort(c.clave) === 'descending' ? '▼' : '↕' }}</span>
+            </button>
+          </th>
+        }
+        @if (acciones().length) {
+          <th scope="col"><span class="sr-only">Acciones</span></th>
+        }
+      </tr>
+    </thead>
+
+    <tbody>
+      @if (cargando()) {
+        @for (i of [1, 2, 3]; track i) {
+          <tr>
+            <td [attr.colspan]="columnas().length + 1"><ion-skeleton-text [animated]="true"></ion-skeleton-text></td>
+          </tr>
+        }
+      } @else {
+        @for (fila of visibles(); track fila.id) {
+          <tr>
+            @for (c of columnas(); track c.clave) {
+              <td [attr.data-label]="c.titulo" [class.numerica]="c.numerica">{{ valor(fila, c) }}</td>
+            }
+            @if (acciones().length) {
+              <td class="acciones">
+                @for (a of acciones(); track a.id) {
+                  <ion-button size="small" fill="outline" [color]="a.color ?? 'primary'" (click)="pulsar(a, fila)"
+                    [attr.aria-label]="a.etiqueta + ': ' + valor(fila, columnas()[0])">
+                    <ion-icon slot="start" [name]="a.icono" aria-hidden="true"></ion-icon>
+                    {{ a.etiqueta }}
+                  </ion-button>
+                }
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr><td [attr.colspan]="columnas().length + 1" class="vacio">{{ textoVacio() }}</td></tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
