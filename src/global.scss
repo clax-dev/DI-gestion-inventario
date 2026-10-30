@@ -89,3 +89,19 @@ html {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* Enlace "saltar al contenido": invisible hasta que recibe el foco con el tabulador */
+.saltar {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 10000;
+  padding: 8px 16px;
+  background: var(--ion-color-primary);
+  color: #fff;
+  border-radius: 4px;
+}
+
+.saltar:focus {
+  top: 8px;
+}
