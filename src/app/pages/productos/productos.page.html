@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button aria-label="Abrir menú"></ion-menu-button></ion-buttons>
+    <ion-title>Productos</ion-title>
+    <ion-buttons slot="end" *hasPermission="'productos:crear'">
+      <ion-button routerLink="/productos/nuevo">
+        <ion-icon slot="start" name="add-outline" aria-hidden="true"></ion-icon>
+        Nuevo producto
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <main class="contenido-pagina">
+    <h1>Catálogo de productos</h1>
+
+    @if (store.error(); as error) {
+      <ion-text color="danger"><p role="alert">{{ error }}</p></ion-text>
+    }
+
+    <app-data-table
+      titulo="Catálogo de productos"
+      [columnas]="columnas"
+      [filas]="store.productos()"
+      [acciones]="acciones()"
+      [cargando]="store.cargando()"
+      textoVacio="No hay productos que coincidan."
+      (accion)="alPulsar($event)"
+    ></app-data-table>
+  </main>
+</ion-content>

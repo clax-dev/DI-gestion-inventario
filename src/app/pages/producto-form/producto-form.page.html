@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-back-button defaultHref="/productos" text="Volver"></ion-back-button></ion-buttons>
+    <ion-title>{{ esEdicion() ? 'Editar producto' : 'Nuevo producto' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="formulario">
+    <h1>{{ esEdicion() ? 'Editar producto' : 'Alta de producto' }}</h1>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+      <ion-input formControlName="sku" label="SKU (código)" labelPlacement="stacked" fill="outline"
+        placeholder="ABC-123" helperText="3 letras, guion y 3 números. Debe ser único." (ionBlur)="aMayusculas()"
+        [errorText]="c.sku.hasError('skuDuplicado') ? 'Ese SKU ya existe' : 'Formato: ABC-123'"
+        [class.ion-touched]="mostrarError('sku')" [class.ion-invalid]="mostrarError('sku')"></ion-input>
+      @if (c.sku.pending) {
+        <p class="comprobando" aria-live="polite"><ion-spinner name="dots" aria-hidden="true"></ion-spinner> Comprobando SKU…</p>
+      } @else if (c.sku.valid && c.sku.dirty) {
+        <ion-text color="success"><p class="comprobando" aria-live="polite">✔ SKU disponible</p></ion-text>
+      }
+
+      <ion-input formControlName="nombre" label="Nombre" labelPlacement="stacked" fill="outline"
+        errorText="Entre 3 y 60 caracteres" [counter]="true" maxlength="60"
+        [class.ion-touched]="mostrarError('nombre')" [class.ion-invalid]="mostrarError('nombre')"></ion-input>
+
+      <ion-input formControlName="categoria" label="Categoría" labelPlacement="stacked" fill="outline"
+        errorText="La categoría es obligatoria"
+        [class.ion-touched]="mostrarError('categoria')" [class.ion-invalid]="mostrarError('categoria')"></ion-input>
+
+      <div class="dos-columnas">
+        <ion-input formControlName="precio" type="number" inputmode="decimal" min="0" step="0.01"
+          label="Precio (€)" labelPlacement="stacked" fill="outline" errorText="No puede ser negativo"
+          [class.ion-touched]="mostrarError('precio')" [class.ion-invalid]="mostrarError('precio')"></ion-input>
+        <ion-input formControlName="stock" type="number" inputmode="numeric" min="0" step="1"
+          label="Stock (unidades)" labelPlacement="stacked" fill="outline" errorText="Número entero ≥ 0"
+          [class.ion-touched]="mostrarError('stock')" [class.ion-invalid]="mostrarError('stock')"></ion-input>
+      </div>
+
+      <ion-note>Los campos marcados en rojo deben corregirse antes de guardar.</ion-note>
+
+      <ion-button type="submit" expand="block" [disabled]="guardando() || form.pending">
+        @if (guardando()) { <ion-spinner name="crescent" aria-hidden="true"></ion-spinner> Guardando… }
+        @else { {{ esEdicion() ? 'Guardar cambios' : 'Crear producto' }} }
+      </ion-button>
+    </form>
+  </main>
+</ion-content>
