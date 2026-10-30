@@ -23,7 +23,7 @@ export interface Pedido {
   total: number;
   estado: EstadoPedido;
   creado_en: string;
-  producto?: { nombre: string; sku: string } | null;
+  producto?: { nombre: string; sku: string; categoria: string } | null;
   usuario?: { nombre: string; email: string } | null;
 }
 

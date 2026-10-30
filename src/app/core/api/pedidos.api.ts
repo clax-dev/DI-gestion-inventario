@@ -16,7 +16,7 @@ export class PedidosApi {
   /** Lista con relaciones embebidas (JOIN de PostgREST por clave foránea). */
   listar(): Observable<Pedido[]> {
     const params = new HttpParams()
-      .set('select', '*,producto:productos(nombre,sku),usuario:perfiles(nombre,email)')
+      .set('select', '*,producto:productos(nombre,sku,categoria),usuario:perfiles(nombre,email)')
       .set('order', 'creado_en.desc');
     return this.http.get<Pedido[]>(this.url, { params });
   }

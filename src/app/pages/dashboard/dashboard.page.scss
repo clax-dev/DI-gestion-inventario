@@ -1,0 +1,60 @@
+.cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.en-vivo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #8a8a8a;
+}
+
+.punto.activo {
+  background: #1e7b34;
+}
+
+.filtros {
+  max-width: 320px;
+  margin: 8px 0 20px;
+}
+
+.cargando {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.graficos {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 992px) {
+  .graficos {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ancho {
+    grid-column: 1 / -1;
+  }
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button aria-label="Abrir menú"></ion-menu-button></ion-buttons>
+    <ion-title>Actividad en tiempo real</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="contenido-pagina">
+    <h1>Actividad en tiempo real</h1>
+    <p>
+      Estado de la conexión:
+      <ion-badge [color]="store.estado() === 'conectado' ? 'success' : store.estado() === 'error' ? 'danger' : 'medium'">
+        {{ store.estado() }}
+      </ion-badge>
+    </p>
+    <p>Los nuevos pedidos y los avisos de stock aparecen aquí al instante, sin recargar la página.</p>
+
+    <!-- aria-live: el lector de pantalla anuncia los documentos que llegan -->
+    <ion-list aria-live="polite" aria-label="Últimos eventos">
+      @for (doc of store.documentos(); track doc.id) {
+        <ion-item>
+          <ion-icon slot="start" [name]="icono(doc)" aria-hidden="true" [attr.data-tipo]="doc.tipo"></ion-icon>
+          <ion-label class="ion-text-wrap">{{ texto(doc) }}</ion-label>
+          <ion-note slot="end">{{ fecha(doc.creado_en) }}</ion-note>
+        </ion-item>
+      } @empty {
+        <ion-item><ion-label>Aún no hay actividad.</ion-label></ion-item>
+      }
+    </ion-list>
+  </main>
+</ion-content>
