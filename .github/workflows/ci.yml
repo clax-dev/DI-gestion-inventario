@@ -1,0 +1,28 @@
+# Integración continua: en cada push y Pull Request se instalan dependencias,
+# se pasan las pruebas unitarias y se compila para producción.
+# Si algo falla, el PR queda marcado en rojo y no debe fusionarse (ni desplegarse).
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    env:
+      # Valores públicos de ejemplo: las pruebas no se conectan a Supabase
+      SUPABASE_URL: https://ejemplo.supabase.co
+      SUPABASE_KEY: sb_publishable_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run set-env
+      - run: npx ng test --watch=false
+      - run: npx ng build
