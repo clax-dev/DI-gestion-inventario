@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button aria-label="Abrir menú"></ion-menu-button></ion-buttons>
+    <ion-title>Ayuda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="contenido-pagina">
+    <h1>Manual de usuario</h1>
+    <p>Estás usando la aplicación como <strong>{{ rol() }}</strong>. Se muestran las instrucciones que se aplican a tu perfil.</p>
+
+    <ion-accordion-group [multiple]="true" [value]="[visibles()[0].id]">
+      @for (s of visibles(); track s.id) {
+        <ion-accordion [value]="s.id">
+          <ion-item slot="header"><ion-label><h2>{{ s.titulo }}</h2></ion-label></ion-item>
+          <div slot="content" class="ion-padding">
+            <ol>
+              @for (paso of s.pasos; track $index) {
+                <li>{{ paso }}</li>
+              }
+            </ol>
+          </div>
+        </ion-accordion>
+      }
+    </ion-accordion-group>
+  </main>
+</ion-content>

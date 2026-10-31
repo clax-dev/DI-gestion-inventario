@@ -47,5 +47,10 @@ export const routes: Routes = [
     canMatch: [permissionGuard('actividad:ver')],
     loadComponent: () => import('./pages/actividad/actividad.page').then(m => m.ActividadPage),
   },
+  {
+    path: 'ayuda',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/ayuda/ayuda.page').then(m => m.AyudaPage),
+  },
   { path: '**', redirectTo: '' },
 ];
