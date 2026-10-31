@@ -27,7 +27,7 @@ Chart.register(
     </figure>
   `,
   styles: [`
-    figure { margin: 0; padding: 16px; border-radius: 12px; background: var(--ion-color-step-50, #f4f5f8); }
+    figure { margin: 0; padding: 16px; border-radius: 12px; background: var(--ion-background-color-step-50, #f4f5f8); }
     figcaption { font-weight: 600; margin-bottom: 8px; }
     .lienzo { position: relative; height: 260px; }
   `],
@@ -47,6 +47,10 @@ export class GraficoComponent {
     afterRenderEffect(() => {
       const datos = this.datos();
       if (!this.grafico) {
+        // Textos y ejes con el color de texto del tema (claro u oscuro) para mantener el contraste
+        const estilos = getComputedStyle(this.lienzo().nativeElement);
+        Chart.defaults.color = estilos.getPropertyValue('--ion-text-color').trim() || '#1b1b1b';
+        Chart.defaults.borderColor = estilos.getPropertyValue('--ion-background-color-step-150').trim() || '#d9d9d9';
         this.grafico = new Chart(this.lienzo().nativeElement, {
           type: this.tipo(),
           data: structuredClone(datos),
