@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent,
+  IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent,
   IonHeader, IonInput, IonNote, IonSpinner, IonText, IonTitle, IonToolbar,
 } from '@ionic/angular';
 import { AuthStore } from '../../core/auth/auth.store';
@@ -16,7 +16,7 @@ import { INICIO_POR_ROL } from '../../core/auth/permisos';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
-    IonCardSubtitle, IonCardContent, IonInput, IonButton, IonText, IonNote, IonSpinner,
+    IonCardContent, IonInput, IonButton, IonText, IonNote, IonSpinner,
   ],
 })
 export class LoginPage {
