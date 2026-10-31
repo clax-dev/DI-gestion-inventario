@@ -1,0 +1,9 @@
+<button type="button" class="tarjeta" [class]="'tarjeta color-' + color()" [class.activo]="activo()"
+  [attr.aria-pressed]="activo()" (click)="seleccionar.emit()">
+  <ion-icon [name]="icono()" aria-hidden="true"></ion-icon>
+  <span class="titulo">{{ titulo() }}</span>
+  <span class="valor">{{ valor() }}</span>
+  @if (detalle()) {
+    <span class="detalle">{{ detalle() }}</span>
+  }
+</button>

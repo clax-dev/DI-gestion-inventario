@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button aria-label="Abrir menú"></ion-menu-button></ion-buttons>
+    <ion-title>Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="contenido-pagina">
+    <h1>{{ esAdmin() ? 'Todos los pedidos' : 'Mis pedidos' }}</h1>
+
+    <ion-card *hasPermission="'pedidos:crear'">
+      <ion-card-header><ion-card-title><h2>Nuevo pedido</h2></ion-card-title></ion-card-header>
+      <ion-card-content>
+        <form class="nuevo" (ngSubmit)="pedir()">
+          <ion-select label="Producto" labelPlacement="stacked" fill="outline" interface="popover"
+            placeholder="Elige un producto" name="producto" [(ngModel)]="productoId">
+            @for (p of productos.productos(); track p.id) {
+              <ion-select-option [value]="p.id" [disabled]="p.stock === 0">
+                {{ p.nombre }} · {{ euros(p.precio) }} ({{ p.stock }} uds.)
+              </ion-select-option>
+            }
+          </ion-select>
+
+          <ion-input type="number" inputmode="numeric" min="1" step="1" label="Cantidad" labelPlacement="stacked"
+            fill="outline" name="cantidad" [(ngModel)]="cantidad"
+            [helperText]="seleccionado() ? 'Disponibles: ' + seleccionado()!.stock : ''"
+            errorText="Cantidad no disponible"
+            [class.ion-touched]="!!seleccionado()" [class.ion-invalid]="!!seleccionado() && !cantidadValida()"></ion-input>
+
+          <p class="total" aria-live="polite">Total estimado: <strong>{{ totalEstimado() }}</strong></p>
+
+          <ion-button type="submit" [disabled]="!cantidadValida() || enviando()">
+            @if (enviando()) { <ion-spinner name="crescent" aria-hidden="true"></ion-spinner> } Confirmar pedido
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    @if (pedidos.error(); as error) {
+      <ion-text color="danger"><p role="alert">{{ error }}</p></ion-text>
+    }
+
+    @if (!esAdmin()) {
+      <p>Has gastado <strong>{{ euros(pedidos.totalGastado()) }}</strong> en pedidos no cancelados.</p>
+    }
+
+    <app-data-table
+      [titulo]="esAdmin() ? 'Todos los pedidos' : 'Mis pedidos'"
+      [columnas]="columnas()"
+      [filas]="pedidos.pedidos()"
+      [acciones]="acciones()"
+      [cargando]="pedidos.cargando()"
+      textoVacio="Todavía no hay pedidos."
+      (accion)="alPulsar($event)"
+    ></app-data-table>
+  </main>
+</ion-content>

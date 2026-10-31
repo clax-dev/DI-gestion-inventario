@@ -1,0 +1,33 @@
+.formulario {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+ion-input {
+  margin-bottom: 16px;
+}
+
+.comprobando {
+  margin: -8px 0 16px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dos-columnas {
+  display: grid;
+  gap: 0 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 576px) {
+  .dos-columnas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+ion-note {
+  display: block;
+  margin-bottom: 16px;
+}
