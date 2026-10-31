@@ -17,7 +17,7 @@
   text-align: left;
   border: 2px solid transparent;
   border-radius: 12px;
-  background: var(--ion-color-step-50, #f4f5f8);
+  background: var(--ion-background-color-step-50, #f4f5f8);
   color: var(--ion-text-color, #1b1b1b);
   font: inherit;
   cursor: pointer;
@@ -62,3 +62,12 @@ ion-icon {
 .color-warning { --acento: #8a5a00; }
 .color-danger { --acento: var(--ion-color-danger-shade); }
 .color-tertiary { --acento: var(--ion-color-tertiary-shade); }
+
+/* Modo oscuro: tonos claros para mantener el contraste sobre fondo oscuro */
+@media (prefers-color-scheme: dark) {
+  .color-primary { --acento: var(--ion-color-primary-tint); }
+  .color-success { --acento: var(--ion-color-success-tint); }
+  .color-warning { --acento: var(--ion-color-warning); }
+  .color-danger { --acento: var(--ion-color-danger-tint); }
+  .color-tertiary { --acento: var(--ion-color-tertiary-tint); }
+}

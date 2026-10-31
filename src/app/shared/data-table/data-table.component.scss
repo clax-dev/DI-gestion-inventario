@@ -5,7 +5,7 @@
 .resumen {
   margin: 0 8px 8px;
   font-size: 0.875rem;
-  color: var(--ion-color-step-650, #595959);
+  color: var(--ion-text-color-step-350, #595959);
 }
 
 .contenedor {
@@ -22,11 +22,11 @@ th,
 td {
   padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid var(--ion-color-step-150, #d9d9d9);
+  border-bottom: 1px solid var(--ion-background-color-step-150, #d9d9d9);
 }
 
 th {
-  background: var(--ion-color-step-50, #f4f5f8);
+  background: var(--ion-background-color-step-50, #f4f5f8);
   white-space: nowrap;
 }
 
@@ -72,7 +72,7 @@ th {
   tr {
     display: block;
     margin: 0 0 12px;
-    border: 1px solid var(--ion-color-step-150, #d9d9d9);
+    border: 1px solid var(--ion-background-color-step-150, #d9d9d9);
     border-radius: 8px;
     padding: 4px 0;
   }
