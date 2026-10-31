@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de inventario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="login">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title><h1>Iniciar sesión</h1></ion-card-title>
+        <ion-card-subtitle>Accede con tu cuenta de administrador o de usuario</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="form" (ngSubmit)="entrar()" novalidate>
+          <ion-input
+            formControlName="email"
+            type="email"
+            label="Correo electrónico"
+            labelPlacement="stacked"
+            fill="outline"
+            autocomplete="email"
+            inputmode="email"
+            errorText="Introduce un correo válido"
+            [class.ion-touched]="form.controls.email.touched"
+            [class.ion-invalid]="form.controls.email.invalid"
+          ></ion-input>
+
+          <ion-input
+            formControlName="password"
+            type="password"
+            label="Contraseña"
+            labelPlacement="stacked"
+            fill="outline"
+            autocomplete="current-password"
+            errorText="Mínimo 6 caracteres"
+            [class.ion-touched]="form.controls.password.touched"
+            [class.ion-invalid]="form.controls.password.invalid"
+          ></ion-input>
+
+          @if (error()) {
+            <ion-text color="danger"><p role="alert">{{ error() }}</p></ion-text>
+          }
+
+          <ion-button type="submit" expand="block" [disabled]="cargando()">
+            @if (cargando()) {
+              <ion-spinner name="crescent" aria-hidden="true"></ion-spinner>
+              <span class="ion-padding-start">Entrando…</span>
+            } @else {
+              Entrar
+            }
+          </ion-button>
+        </form>
+
+        <ion-note class="credenciales">
+          Las cuentas de prueba (administrador y usuario) se indican en el documento de entrega.
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
+  </main>
+</ion-content>
