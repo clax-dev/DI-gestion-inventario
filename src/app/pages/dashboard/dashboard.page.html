@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-menu-button aria-label="Abrir menú"></ion-menu-button></ion-buttons>
+    <ion-title>Cuadro de mando</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="contenido-pagina">
+    <div class="cabecera">
+      <h1>Cuadro de mando</h1>
+      <p class="en-vivo" aria-live="polite">
+        <span class="punto" [class.activo]="actividad.estado() === 'conectado'" aria-hidden="true"></span>
+        {{ actividad.estado() === 'conectado' ? 'Datos en tiempo real' : 'Conectando…' }}
+      </p>
+    </div>
+
+    <section class="filtros" aria-label="Filtros">
+      <ion-select label="Categoría" labelPlacement="stacked" fill="outline" interface="popover"
+        [value]="categoria()" (ionChange)="categoria.set($event.detail.value)">
+        <ion-select-option value="todas">Todas</ion-select-option>
+        @for (c of categorias(); track c) {
+          <ion-select-option [value]="c">{{ c }}</ion-select-option>
+        }
+      </ion-select>
+    </section>
+
+    @if (error(); as e) {
+      <ion-text color="danger"><p role="alert">{{ e }}</p></ion-text>
+    }
+
+    @if (cargando()) {
+      <p class="cargando" role="status"><ion-spinner name="crescent" aria-hidden="true"></ion-spinner> Cargando datos…</p>
+    } @else {
+      <section class="rejilla" aria-label="Indicadores">
+        <app-stat-card titulo="Valor del inventario" [valor]="valorInventario()" icono="cube-outline" color="primary"
+          [activo]="filtroRapido() === 'ninguno'" (seleccionar)="filtroRapido.set('ninguno')" detalle="Quitar filtros"></app-stat-card>
+        <app-stat-card titulo="Productos con stock bajo" [valor]="numStockBajo()" icono="warning-outline" color="danger"
+          [activo]="filtroRapido() === 'stock_bajo'" (seleccionar)="alternarFiltro('stock_bajo')" detalle="Menos de 5 unidades"></app-stat-card>
+        <app-stat-card titulo="Pedidos pendientes" [valor]="numPendientes()" icono="hourglass-outline" color="warning"
+          [activo]="filtroRapido() === 'pendientes'" (seleccionar)="alternarFiltro('pendientes')" detalle="Pulsa para filtrar"></app-stat-card>
+        <app-stat-card titulo="Ingresos" [valor]="ingresos()" icono="trending-up-outline" color="success"
+          detalle="Pedidos no cancelados"></app-stat-card>
+      </section>
+
+      <section class="graficos" aria-label="Gráficos">
+        <app-grafico tipo="bar" titulo="Stock por categoría" [datos]="datosStock()" [descripcion]="descStock()"></app-grafico>
+        <app-grafico tipo="doughnut" titulo="Pedidos por estado" [datos]="datosEstados()" [descripcion]="descEstados()"></app-grafico>
+        <app-grafico class="ancho" tipo="line" titulo="Ingresos de los últimos 14 días" [datos]="datosIngresos()" [descripcion]="descIngresos()"></app-grafico>
+      </section>
+
+      <section class="informes" aria-labelledby="titulo-informes" *hasPermission="'informes:exportar'">
+        <h2 id="titulo-informes">Informes</h2>
+        <p>Se exportan los datos con los filtros aplicados.</p>
+        <div class="botones">
+          <ion-button (click)="exportarInventario('pdf')"><ion-icon slot="start" name="document-text-outline" aria-hidden="true"></ion-icon>Inventario PDF</ion-button>
+          <ion-button fill="outline" (click)="exportarInventario('csv')"><ion-icon slot="start" name="download-outline" aria-hidden="true"></ion-icon>Inventario CSV</ion-button>
+          <ion-button (click)="exportarPedidos('pdf')"><ion-icon slot="start" name="document-text-outline" aria-hidden="true"></ion-icon>Pedidos PDF</ion-button>
+          <ion-button fill="outline" (click)="exportarPedidos('csv')"><ion-icon slot="start" name="download-outline" aria-hidden="true"></ion-icon>Pedidos CSV</ion-button>
+        </div>
+      </section>
+    }
+  </main>
+</ion-content>

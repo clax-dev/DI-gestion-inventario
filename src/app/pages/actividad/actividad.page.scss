@@ -1,0 +1,11 @@
+ion-icon[data-tipo="pedido_nuevo"] {
+  color: var(--ion-color-primary-shade);
+}
+
+ion-icon[data-tipo="stock_bajo"] {
+  color: var(--ion-color-danger-shade);
+}
+
+ion-icon[data-tipo="producto_nuevo"] {
+  color: var(--ion-color-success-shade);
+}
