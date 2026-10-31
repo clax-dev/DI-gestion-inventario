@@ -9,3 +9,9 @@ ion-icon[data-tipo="stock_bajo"] {
 ion-icon[data-tipo="producto_nuevo"] {
   color: var(--ion-color-success-shade);
 }
+
+@media (prefers-color-scheme: dark) {
+  ion-icon[data-tipo="pedido_nuevo"] { color: var(--ion-color-primary-tint); }
+  ion-icon[data-tipo="stock_bajo"] { color: var(--ion-color-danger-tint); }
+  ion-icon[data-tipo="producto_nuevo"] { color: var(--ion-color-success-tint); }
+}
