@@ -73,3 +73,10 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Generados por scripts/set-env.mjs a partir de .env
+src/environments/environment.ts
+src/environments/environment.prod.ts
+
+# Documentación generada por Compodoc (se publica en /documentacion en Vercel)
+/documentation

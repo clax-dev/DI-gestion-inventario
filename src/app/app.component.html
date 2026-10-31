@@ -1,33 +1,39 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <ion-split-pane contentId="main-content" [disabled]="!auth.isAuthenticated()">
+    <ion-menu contentId="main-content" type="overlay" [disabled]="!auth.isAuthenticated()">
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+        <nav aria-label="Menú principal">
+          <ion-list id="menu-list">
+            <ion-list-header>Inventario</ion-list-header>
+            <ion-note>{{ auth.email() }} · {{ auth.rol() === 'admin' ? 'Administrador' : 'Usuario' }}</ion-note>
 
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          }
-        </ion-list>
+            @for (p of paginas; track p.url) {
+              @if (p.permiso) {
+                <ion-menu-toggle auto-hide="false" *hasPermission="p.permiso">
+                  <ng-container *ngTemplateOutlet="entrada; context: { $implicit: p }"></ng-container>
+                </ion-menu-toggle>
+              } @else {
+                <ion-menu-toggle auto-hide="false">
+                  <ng-container *ngTemplateOutlet="entrada; context: { $implicit: p }"></ng-container>
+                </ion-menu-toggle>
+              }
+            }
+          </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
+          <ion-button fill="clear" expand="block" (click)="cerrarSesion()">
+            <ion-icon aria-hidden="true" slot="start" name="log-out-outline"></ion-icon>
+            Cerrar sesión
+          </ion-button>
+        </nav>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
+
+<ng-template #entrada let-p>
+  <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+    <ion-icon aria-hidden="true" slot="start" [ios]="p.icono + '-outline'" [md]="p.icono + '-sharp'"></ion-icon>
+    <ion-label>{{ p.titulo }}</ion-label>
+  </ion-item>
+</ng-template>

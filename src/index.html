@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Ionic App</title>
+  <meta charset="utf-8"/>
+  <title>Gestión de inventario y pedidos</title>
+  <meta name="description" content="Aplicación de gestión de inventario y pedidos: catálogo, pedidos, cuadro de mando e informes."/>
 
-  <base href="/" />
+  <base href="/"/>
 
-  <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="color-scheme" content="light dark"/>
+  <!-- Sin user-scalable=no ni maximum-scale: el usuario debe poder hacer zoom (WCAG 1.4.4) -->
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="msapplication-tap-highlight" content="no"/>
+  <meta name="theme-color" content="#0054e9"/>
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png"/>
 
   <!-- add to homescreen for ios -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <link rel="manifest" href="manifest.webmanifest">
 </head>
 
 <body>
+  <a class="saltar" href="#main-content">Saltar al contenido principal</a>
   <app-root></app-root>
+  <noscript>Esta aplicación necesita JavaScript para funcionar.</noscript>
 </body>
 
 </html>

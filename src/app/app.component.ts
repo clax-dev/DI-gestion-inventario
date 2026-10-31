@@ -1,27 +1,59 @@
-
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  IonApp, IonButton, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle,
+  IonNote, IonRouterLink, IonRouterOutlet, IonSplitPane,
+} from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
+import {
+  cubeOutline, cubeSharp, cartOutline, cartSharp, statsChartOutline, statsChartSharp, pulseOutline, pulseSharp,
+  helpCircleOutline, helpCircleSharp, logOutOutline,
+} from 'ionicons/icons';
+import { AuthStore } from './core/auth/auth.store';
+import { Permiso } from './core/auth/permisos';
+import { HasPermissionDirective } from './core/directives/has-permission.directive';
+
+/** Entrada del menú lateral: si tiene permiso, solo se pinta para quien lo posea. */
+interface EntradaMenu {
+  titulo: string;
+  url: string;
+  icono: string;
+  permiso: Permiso | null;
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote,
+    IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet, IonButton, HasPermissionDirective,
+    NgTemplateOutlet,
+  ],
 })
 export class AppComponent {
-  protected readonly appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+  protected readonly auth = inject(AuthStore);
+  private readonly router = inject(Router);
+
+  protected readonly paginas: EntradaMenu[] = [
+    { titulo: 'Cuadro de mando', url: '/dashboard', icono: 'stats-chart', permiso: 'dashboard:ver' },
+    { titulo: 'Productos', url: '/productos', icono: 'cube', permiso: 'productos:ver' },
+    { titulo: 'Pedidos', url: '/pedidos', icono: 'cart', permiso: null },
+    { titulo: 'Actividad en tiempo real', url: '/actividad', icono: 'pulse', permiso: 'actividad:ver' },
+    { titulo: 'Ayuda', url: '/ayuda', icono: 'help-circle', permiso: null },
   ];
-  protected readonly labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
   constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+    addIcons({
+      cubeOutline, cubeSharp, cartOutline, cartSharp, statsChartOutline, statsChartSharp, pulseOutline, pulseSharp,
+      helpCircleOutline, helpCircleSharp, logOutOutline,
+    });
+  }
+
+  async cerrarSesion(): Promise<void> {
+    await this.auth.logout();
+    await this.router.navigate(['/login'], { replaceUrl: true });
   }
 }
